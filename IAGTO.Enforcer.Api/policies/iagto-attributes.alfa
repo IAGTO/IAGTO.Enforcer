@@ -1,0 +1,33 @@
+namespace IAGTO
+{
+    category httpHeaderCat = "urn:rsk:names:enforcer:1.1:attribute-catergory:http-header"
+    //ALlowed Permission
+    attribute Permission
+    {
+        id = "iagto:permission"
+        type = string
+        category = subjectCat 
+    }
+
+    //MemberId who is viewing the resource (Only from IAGTO Website)
+    attribute ViewerMemberId
+    {
+        id = "X-IAGTO-Viewing-MemberId"
+        type = string
+        category = httpHeaderCat 
+    }
+
+    attribute OwnerMemberId
+    {
+        id = "iagto:ownerMemberId"
+        type = string
+        category = resourceCat
+    }
+
+    attribute AllowedMemberIds
+    {
+        id = "iagto:allowedMemberIds"
+        type = string
+        category = resourceCat
+    }
+}

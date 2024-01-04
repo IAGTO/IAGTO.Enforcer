@@ -1,0 +1,10 @@
+namespace IAGTO
+{
+    import IAGTO.AccountingApi
+    
+    policyset AccountingApi
+    {
+        apply firstApplicable
+        policy Accounts
+    }
+}

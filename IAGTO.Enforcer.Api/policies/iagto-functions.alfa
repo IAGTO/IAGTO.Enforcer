@@ -1,0 +1,4 @@
+namespace IAGTO.Functions
+{
+    function PermissionKey = "com.iagto:permission-key" : resourceType:bag[string] action:bag[string] permission:bag[string] -> string
+}

@@ -1,0 +1,29 @@
+@hostname=localhost
+@port=5037
+POST https://{{hostname}}:{{port}}/pdp
+Content-Type: application/vnd.rsk.enforcer.evaluation-request-v1+json
+
+{
+    "attributes": [
+        {
+            "name": "ResourceType",
+            "category": "urn:oasis:names:tc:xacml:3.0:attribute-category:resource",
+            "type": "string",
+            "sensitivity": "NonSensitive",
+            "values": [
+                "Accounts"
+            ]
+        },
+        {
+            "name": "Action",
+            "category": "urn:oasis:names:tc:xacml:3.0:attribute-category:action",
+            "type": "string",
+            "sensitivity": "NonSensitive",
+            "values": [
+                "CreateUpdate"
+            ]
+        }
+    ]
+}
+
+###

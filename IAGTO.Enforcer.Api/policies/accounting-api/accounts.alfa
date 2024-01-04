@@ -1,0 +1,21 @@
+namespace IAGTO.AccountingApi
+{
+    import Oasis.Attributes
+    import Enforcer.Attributes
+    import Oasis.Functions
+    import IAGTO.Functions
+    import IAGTO.Advice
+
+    policy Accounts
+    {
+        apply permitUnlessDeny
+        target clause ResourceType == 'Accounts'
+
+        rule RestrictAccessToOwnerMember
+        {            
+            target clause Action == 'CreateUpdate'
+            condition not (AllowedMemberIds == "d4880bdf-9d5d-4c42-adb7-70351274b183")
+            deny
+        }
+    }
+}

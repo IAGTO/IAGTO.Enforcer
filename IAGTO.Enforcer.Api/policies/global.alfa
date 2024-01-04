@@ -1,0 +1,16 @@
+namespace IAGTO
+{
+    import IAGTO.PermissionsApi
+    import IAGTO.MembershipApi
+    import IAGTO.AccountingApi
+    
+    import Oasis.Attributes
+    import Oasis.Functions
+
+    policyset Global
+    {
+        apply firstApplicable
+
+        policy AccountingApi
+    }
+}
