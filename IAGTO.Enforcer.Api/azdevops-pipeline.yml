@@ -20,7 +20,6 @@ variables:
 
 stages:
 - stage: enforcer_app
-  dependsOn: calculate_git_version
   displayName: Enforcer App
   jobs:
   - job: build_api
