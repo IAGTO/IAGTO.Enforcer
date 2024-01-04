@@ -25,12 +25,14 @@ stages:
   - job: build_api
     displayName: Build and Publish API
     steps:
+    
     - task: Docker@2
       displayName: Build Docker Image
       inputs:
         containerRegistry: 'Docker Hub IAGTO Project'
         repository: 'iagtodev/enforcer-attributevalueprovider-issue'
         command: 'build'
+        buildContext: '../'
         Dockerfile: 'IAGTO.Enforcer.Api/Dockerfile'
         addPipelineData: false
         tags: '$(Build.BuildNumber)'
