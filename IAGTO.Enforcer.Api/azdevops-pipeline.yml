@@ -1,0 +1,44 @@
+﻿# Starter pipeline
+# Start with a minimal pipeline that you can customize to build and deploy your code.
+# Add steps that build, run tests, deploy, and more:
+# https://aka.ms/yaml
+
+name: $(date:yyyyMMdd)$(rev:.r)
+
+#trigger:
+#- feature/Test-feature
+trigger: none
+
+pool:
+  name: 'Azure Pipelines'
+  vmImage: 'ubuntu-latest'
+  
+
+variables:
+  - name: parsed-dockerhub-connection-name
+    value: $[variables.docker_registry_sc_name]
+
+stages:
+- stage: enforcer_app
+  dependsOn: calculate_git_version
+  displayName: Enforcer App
+  jobs:
+  - job: build_api
+    displayName: Build and Publish API
+    steps:
+    - task: Docker@2
+      displayName: 'Build an image'
+      inputs:
+        containerRegistry: $(parsed-dockerhub-connection-name) 
+        repository: 'iagtodev/enforcer-attributevalueprovider'
+        command: build
+        Dockerfile: IAGTO.Enforcer.Api/Dockerfile
+        tags: '$(Build.BuildNumber)'
+    - task: Docker@2
+      displayName: 'Push an image'
+      condition: eq(variables['Build.SourceBranch'], 'refs/heads/master')
+      inputs:
+        containerRegistry: $(parsed-dockerhub-connection-name) 
+        repository: 'iagtodev/enforcer-attributevalueprovider'
+        command: push
+        tags: '$(Build.BuildNumber)'
