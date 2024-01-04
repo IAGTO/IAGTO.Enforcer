@@ -32,7 +32,6 @@ stages:
         containerRegistry: 'Docker Hub IAGTO Project'
         repository: 'iagtodev/enforcer-attributevalueprovider-issue'
         command: 'build'
-        buildContext: '../'
         Dockerfile: 'IAGTO.Enforcer.Api/Dockerfile'
         addPipelineData: false
         tags: '$(Build.BuildNumber)'
