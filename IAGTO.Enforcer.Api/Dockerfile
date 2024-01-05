@@ -12,6 +12,7 @@ WORKDIR /src
 COPY ["IAGTO.Enforcer.Api/IAGTO.Enforcer.Api.csproj", "IAGTO.Enforcer.Api/"]
 RUN dotnet restore "./IAGTO.Enforcer.Api/./IAGTO.Enforcer.Api.csproj"
 COPY . .
+COPY ["IAGTO.Enforcer.Api/policies", "/app/build/policies"]
 WORKDIR "/src/IAGTO.Enforcer.Api"
 RUN dotnet build "./IAGTO.Enforcer.Api.csproj" -c $BUILD_CONFIGURATION -o /app/build
 
@@ -21,5 +22,6 @@ RUN dotnet publish "./IAGTO.Enforcer.Api.csproj" -c $BUILD_CONFIGURATION -o /app
 
 FROM base AS final
 WORKDIR /app
+COPY --from=build /app/build/policies ./policies
 COPY --from=publish /app/publish .
 ENTRYPOINT ["dotnet", "IAGTO.Enforcer.Api.dll"]
