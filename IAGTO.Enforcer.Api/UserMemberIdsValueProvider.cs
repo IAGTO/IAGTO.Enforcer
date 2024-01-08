@@ -4,15 +4,18 @@ using Rsk.Enforcer.PolicyModels;
 using System.Reflection;
 
 namespace IAGTO.Enforcer.Api;
-public class UserMemberIdsValueProvider : RecordAttributeValueProvider<UserMember>
+public class UserMemberIdsValueProvider : RecordAttributeValueProvider<EnforcerMember>
 {
     private readonly ILogger<UserMemberIdsValueProvider> _logger;
-    public UserMemberIdsValueProvider(ILogger<UserMemberIdsValueProvider> logger)
+    private readonly HttpUserClient _userClient;
+
+    public UserMemberIdsValueProvider(ILogger<UserMemberIdsValueProvider> logger, HttpUserClient userClient)
     {
         _logger = logger;
+        _userClient = userClient;
         try
         {
-            foreach (PropertyInfo property in typeof(UserMember).GetProperties())
+            foreach (PropertyInfo property in typeof(EnforcerMember).GetProperties())
             {
                 if (property == null)
                 {
@@ -35,18 +38,24 @@ public class UserMemberIdsValueProvider : RecordAttributeValueProvider<UserMembe
         _logger.LogDebug($"Supported Categories {string.Join(" ", SupportedCategories)}");
     }
 
-    protected override async Task<UserMember> GetRecordValue(IAttributeResolver attributeResolver, CancellationToken ct)
+    protected override async Task<EnforcerMember> GetRecordValue(IAttributeResolver attributeResolver, CancellationToken ct)
     {
         try
         {
             _logger.LogDebug("GetRecordValue");
 
-            var result = await Task.FromResult(new UserMember());
-            
-            result.AllowedMemberIds = new string[1];
-            var i = 0;
+            var members = await _userClient.GetCurrentUserMembers();
 
-            result.AllowedMemberIds[0] = "d4880bdf-9d5d-4c42-adb7-70351274b183";
+            var result = await Task.FromResult(new EnforcerMember());
+
+            var allowedMemberIds = new string[members.Count];
+            var count = 0;
+            foreach (var member in members)
+            {
+                allowedMemberIds[count++] = member.MemberId.ToString();
+            }
+
+            result.AllowedMemberIds = allowedMemberIds;
 
             return result;
         }

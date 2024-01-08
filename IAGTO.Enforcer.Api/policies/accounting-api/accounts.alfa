@@ -14,7 +14,7 @@ namespace IAGTO.AccountingApi
         rule RestrictAccessToOwnerMember
         {            
             target clause Action == 'CreateUpdate'
-            condition not (AllowedMemberIds == "d4880bdf-9d5d-4c42-adb7-70351274b183")
+            condition not (AllowedMemberIds == "8c8336a5-6efa-4830-aa03-94aacf666e86")
             deny
         }
     }
